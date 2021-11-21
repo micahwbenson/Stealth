@@ -5,20 +5,24 @@ using UnityEngine.Events;
 
 public class Sense : MonoBehaviour
 {
-    public Detectable Detectable;
+    public Detectable Detectable; //The player object, essentially but will be a value true or false
+    //The distance between the AI and the Detectable player object -- used in part for a threshold check of both eyes and ears
     public float Distance;
 
+    //Not sure, but I think this is set when the AI is activately detecting a player object -- protected so it can be set by each of the children classes (eyes & ears)
     protected bool IsSensing;
 
+    //I don't know what this does yet, but will learn soon enough . . .
     public bool IsDetectionContinuous = true;
 
-    //Need to double back around and make sure I understand how these work again . . .
+    //The way these actions work always confuse me -- conceptually they are a bit hard to wrap ym head around
     public UnityAction<Detectable> OnDetect;
     public UnityAction<Detectable> OnLost;
 
     private void Detect(Detectable detectable)
     {
         IsSensing = true;
+        //I think this just sets detectable to true, interesting though . . . what's the benefit of using an action like this?
         OnDetect?.Invoke(detectable);
     }
 
@@ -28,8 +32,7 @@ public class Sense : MonoBehaviour
         OnLost?.Invoke(detectable);
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
         if (IsSensing)
         {
@@ -39,7 +42,7 @@ public class Sense : MonoBehaviour
                 return;
             }
 
-            if(IsDetectionContinuous)
+            if (IsDetectionContinuous)
             {
                 Detect(Detectable);
             }
@@ -53,6 +56,5 @@ public class Sense : MonoBehaviour
         }
     }
 
-    //This function is replaced by the children class of Ears and Eyes as needed . . .
     protected virtual bool HasDetected(Detectable detectable) => false;
 }

@@ -6,7 +6,8 @@ public class PlayerController : MonoBehaviour
 {
     //Just copying the player controller for now, because it's not my current focus on this work -- HAHA nvm, this is for 3d movement, lmao -- that also explains why my bool for CanBeHear wasn't working correctly
 
-    public float MoveSpeed = 6f;
+    [Range(3f,10f)]
+    public float MoveSpeed = 3f;
 
     private Detectable detectable;
 
@@ -17,8 +18,8 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        float verticalAxis = Input.GetAxis("Vertical");
-        float horizontalAxis = Input.GetAxis("Horizontal");
+        float verticalAxis = Input.GetAxisRaw("Vertical");
+        float horizontalAxis = Input.GetAxisRaw("Horizontal");
 
         detectable.CanBeHear = verticalAxis != 0f || horizontalAxis != 0f;
 
